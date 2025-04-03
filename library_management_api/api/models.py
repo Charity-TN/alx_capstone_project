@@ -17,3 +17,8 @@ class User(models.Model):
     active_status = models.BooleanField(default=True)
     check_out_date = models.DateTimeField(default=True)
     return_date = models.DateTimeField(null=True, blank=True)
+
+class Transaction(models.Model):
+    transaction_id = models.AutoField(primary_key=True)
+    book= models.ForeignKey(Book, on_delete = models.CASCADE)
+    user= models.ForeignKey(User, on_delete = models.CASCADE)
