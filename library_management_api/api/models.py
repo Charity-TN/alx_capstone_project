@@ -25,7 +25,7 @@ class Transaction(models.Model):
     book= models.ForeignKey(Book, on_delete = models.CASCADE)
     user= models.ForeignKey(User, on_delete = models.CASCADE)
 
-class tracking(models.Model):
+class Tracking(models.Model):
     tracking_id = models.AutoField(primary_key = True)
     transaction = models.OnetoOne(Transaction, on_delete = models.CASCADE)
     days_overdue = models.IntegerField(default=0)
