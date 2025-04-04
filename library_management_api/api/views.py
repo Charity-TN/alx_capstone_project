@@ -34,6 +34,33 @@ class BookViewSet(viewsets.ModelViewSet):
             logger.warning(f"Checkout failed for '{book.title}' - No copies available")
             return Response({'error': 'No copies available'}, status=status.HTTP_400_BAD_REQUEST)
 
+#User Viewset
+class UserViewSet(viewsets.ModelViewSet):
+    queryset =  User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = [IsAuthenticated]
+    lookup_field = 'username'
+
+#Transaction Viewset
+class TransactionViewSet(viewsets.ModelViewSet):
+    queryset = Transaction.objects.get()
+    serializer_class = TransactionSerializer
+    permission_classes = [IsAuthenticated]
+    
+    @action(detail=True, methods=['post'])
+    def checkout(self, request, pk=None):
+        transaction = self.get_object()
+        if transaction.return_date:
+            return Response({'error': 'Book already returned'}, status=status.HTTP_400_BAD_REQUEST)
+        transaction.return_date = timezone.now()
+        transaction.book.copies_available += 1
+        transaction.book.save()
+        transaction.save()
+        logger.info(f"{request.user.username} returned book '{transaction.book.title}'")
+        return Response({'message': 'Book returned successfully'}, status=status.HTTP_200_OK)
+    
+            
+        
 
 
 
