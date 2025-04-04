@@ -1,6 +1,6 @@
 from rest_framework.decorators import action
-from .models import Book, User, Transaction
-from rest_framework import viewsets, status, 
+from .models import Book, User, Transaction, Tracking
+from rest_framework import viewsets, status
 from .serializers import BookSerializer, UserSerializer, TransactionSerializer, TrackingSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -59,12 +59,8 @@ class TransactionViewSet(viewsets.ModelViewSet):
         logger.info(f"{request.user.username} returned book '{transaction.book.title}'")
         return Response({'message': 'Book returned successfully'}, status=status.HTTP_200_OK)
     
-            
-        
-
-
-
-
-
-
-
+class TrackingViewSet(viewsets.ModelViewSet):
+    queryset = Tracking.objects.all()
+    serializer_class = TrackingSerializer
+    permission_classes = [IsAuthenticated]
+    lookup_field = 'code'
