@@ -7,7 +7,7 @@ from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
 import logging
 from django.utils import timezone
-
+from .permissions import IsAdminOrReadOnly,IsOwnerOrReadOnly
 # Create your views here.
 
 #Setup logging
@@ -16,9 +16,9 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 
 #Book Viewset
 class BookViewSet(viewsets.ModelViewSet):
-    queryset = Book.objects.get()
+    queryset = Book.objects.all()
     serializer_class = BookSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsAdminOrReadOnly]
     lookup_field = 'code'
 
     @action(detail=True, methods=['post'])
@@ -43,9 +43,9 @@ class UserViewSet(viewsets.ModelViewSet):
 
 #Transaction Viewset
 class TransactionViewSet(viewsets.ModelViewSet):
-    queryset = Transaction.objects.get()
+    queryset = Transaction.objects.all()
     serializer_class = TransactionSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsOwnerOrReadOnly]
     
     @action(detail=True, methods=['post'])
     def checkout(self, request, pk=None):
@@ -64,3 +64,4 @@ class TrackingViewSet(viewsets.ModelViewSet):
     serializer_class = TrackingSerializer
     permission_classes = [IsAuthenticated]
     lookup_field = 'code'
+
