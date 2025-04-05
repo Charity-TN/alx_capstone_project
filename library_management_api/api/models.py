@@ -27,7 +27,7 @@ class Transaction(models.Model):
 
 class Tracking(models.Model):
     tracking_id = models.AutoField(primary_key = True)
-    transaction = models.OnetoOne(Transaction, on_delete = models.CASCADE)
+    transaction = models.OneToOneField(Transaction, on_delete = models.CASCADE)
     days_overdue = models.IntegerField(default=0)
     resolved = models.BooleanField(default=False)
     penalty_amount = models.DefaultField(max_digits =10, decimal_places = 2, default = 0.00)
