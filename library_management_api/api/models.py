@@ -15,7 +15,7 @@ class User(models.Model):
     user_id= models.AutoField(primary_key=True)
     username= models.CharField(max_length=150, unique=True)
     email = models.EmailField(unique=True)
-    date_of_membership = models.DateField(auto_add_now=True)
+    date_of_membership = models.DateField(auto_now_add=True)
     active_status = models.BooleanField(default=True)
     check_out_date = models.DateTimeField(default=True)
     return_date = models.DateTimeField(null=True, blank=True)
