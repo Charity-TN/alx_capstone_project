@@ -30,7 +30,7 @@ class Tracking(models.Model):
     transaction = models.OneToOneField(Transaction, on_delete = models.CASCADE)
     days_overdue = models.IntegerField(default=0)
     resolved = models.BooleanField(default=False)
-    penalty_amount = models.DefaultField(max_digits =10, decimal_places = 2, default = 0.00)
+    penalty_amount = models.DecimalField(max_digits =10, decimal_places = 2, default = 0.00)
 
     def calculate_overdue_days(self):
         """Calculate overdue days based on the due date from the transaction."""
